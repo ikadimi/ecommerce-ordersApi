@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const Order = require('./models/order.model');
 
@@ -22,7 +23,6 @@ app.use(cors({
 // Checkout Process
 app.get('/', async (req, res) => {
     try {
-        console.log('wowi')
         const userId = req.headers['x-user-id']; // Assuming the user ID is passed in the headers
 
         if (!userId) {
@@ -43,11 +43,11 @@ app.get('/', async (req, res) => {
     }
 });
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'ecommerce';
+const url = process.env.DB_URL;
+const dbName = process.env.DB_NAME;
 mongoose.connect(`${url}/${dbName}`)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-const PORT = 3005;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
